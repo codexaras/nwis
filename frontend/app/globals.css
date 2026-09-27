@@ -1,0 +1,360 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------------------------------
+   eRTMAC-NWIS design tokens — single source of truth for colour, type and surfaces.
+   The application is dark-only by design (drilling control-room software).
+   ------------------------------------------------------------------------------------------ */
+:root {
+  color-scheme: dark;
+
+  --nwis-bg: #0b0f14;
+  --nwis-surface: #121821;
+  --nwis-surface-2: #18202b;
+  --nwis-surface-3: #1e2836;
+  --nwis-border: #243041;
+  --nwis-border-strong: #2f3d52;
+  --nwis-text: #e6edf3;
+  --nwis-muted: #8b98a9;
+  --nwis-dim: #5c6878;
+
+  --nwis-amber: #f59e0b;
+  --nwis-amber-soft: rgba(245, 158, 11, 0.14);
+  --nwis-teal: #14b8a6;
+  --nwis-teal-soft: rgba(20, 184, 166, 0.14);
+
+  --sev-low: #22c55e;
+  --sev-medium: #eab308;
+  --sev-high: #f97316;
+  --sev-critical: #ef4444;
+
+  /* Fixed muted geological palette — formations (top → bottom) */
+  --fm-alluvium: #7c8a6b;
+  --fm-namsang: #9a8b5a;
+  --fm-dhekiajuli: #b59a5b;
+  --fm-girujan: #8e6e4e;
+  --fm-tipam: #c9a45c;
+  --fm-barail: #4f5b63;
+  --fm-kopili: #6b5b7a;
+  --fm-sylhet: #5f8a8b;
+  --fm-langpar: #7a7f86;
+  --fm-basement: #3a3f47;
+
+  /* Surface texture used by hero panels (barely visible plotting grid) */
+  --nwis-grid-line: rgba(139, 152, 169, 0.06);
+
+  /* shadcn/ui compatibility */
+  --radius: 12px;
+}
+
+* {
+  border-color: var(--nwis-border);
+}
+
+html,
+body {
+  background: var(--nwis-bg);
+  color: var(--nwis-text);
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* All numerics: JetBrains Mono, tabular */
+.num,
+.font-mono,
+code,
+kbd,
+pre {
+  font-family: var(--font-jetbrains), "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "zero" 0;
+}
+
+@layer components {
+  /* 11px uppercase tracked labels (HUD) */
+  .hud-label {
+    @apply text-label uppercase tracking-[0.08em] text-muted;
+  }
+  .surface-card {
+    @apply rounded-card border border-border bg-surface shadow-card;
+  }
+  .plot-grid {
+    background-image:
+      linear-gradient(var(--nwis-grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--nwis-grid-line) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .hero-illumination {
+    background:
+      radial-gradient(800px 320px at 20% 0%, rgba(245, 158, 11, 0.06), transparent 60%),
+      radial-gradient(600px 300px at 90% 100%, rgba(20, 184, 166, 0.05), transparent 60%);
+  }
+}
+
+/* Thin, muted scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--nwis-border-strong) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--nwis-border-strong);
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::selection {
+  background: rgba(245, 158, 11, 0.3);
+}
+
+/* ------------------------------------------------------------------------------------------
+   FIELD MODE — high-contrast, larger type for rig-floor tablets. Toggled from the top bar.
+   ------------------------------------------------------------------------------------------ */
+:root[data-field-mode="true"] {
+  --nwis-text: #f5f9fc;
+  --nwis-muted: #a7b3c2;
+  --nwis-border: #2f3d52;
+}
+:root[data-field-mode="true"] body {
+  font-size: 15px;
+  line-height: 21px;
+}
+:root[data-field-mode="true"] .hud-label {
+  font-size: 12px;
+}
+
+/* sonner container */
+[data-sonner-toaster] {
+  --width: 380px;
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+}
+
+/* ------------------------------------------------------------------------------------------
+   LEAFLET — CARTO dark basemap, custom divIcon markers, tooltip cards. No default chrome.
+   ------------------------------------------------------------------------------------------ */
+.leaflet-container {
+  background: #0b0f14;
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  outline: none;
+}
+.leaflet-container .leaflet-tile-pane {
+  filter: saturate(0.35) brightness(0.62) contrast(1.15);
+}
+.leaflet-container .leaflet-control-attribution {
+  display: none;
+}
+.nwis-divicon {
+  background: transparent;
+  border: 0;
+}
+
+/* offset well marker */
+.nwis-marker {
+  position: relative;
+  width: 0;
+  height: 0;
+}
+.nwis-marker .halo {
+  position: absolute;
+  left: calc(var(--size) / -2 - 5px);
+  top: calc(var(--size) / -2 - 5px);
+  width: calc(var(--size) + 10px);
+  height: calc(var(--size) + 10px);
+  border-radius: 50%;
+  background: var(--halo);
+  opacity: 0.22;
+  filter: blur(1px);
+}
+.nwis-marker .core {
+  position: absolute;
+  left: calc(var(--size) / -2);
+  top: calc(var(--size) / -2);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: #e6edf3;
+  border: 2px solid var(--halo);
+  box-shadow: 0 0 10px var(--halo);
+  transition: transform 150ms ease;
+}
+.nwis-marker .lbl {
+  position: absolute;
+  left: calc(var(--size) / 2 + 6px);
+  top: -7px;
+  white-space: nowrap;
+  font-family: var(--font-jetbrains), "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: #e6edf3;
+  text-shadow: 0 0 4px #0b0f14, 0 0 8px #0b0f14;
+  opacity: 0.9;
+}
+.nwis-marker:hover .core,
+.nwis-marker.selected .core {
+  transform: scale(1.25);
+}
+.nwis-marker.selected .core {
+  box-shadow: 0 0 0 3px #0b0f14, 0 0 0 5px #e6edf3, 0 0 14px var(--halo);
+}
+.nwis-marker.dim .halo {
+  display: none;
+}
+.nwis-marker.dim .core {
+  background: #5c6878;
+  border-color: #2f3d52;
+  box-shadow: none;
+  opacity: 0.55;
+}
+.nwis-marker.dim .lbl {
+  color: #8b98a9;
+  opacity: 0.6;
+}
+
+/* active well: amber core + concentric radar pulse */
+.nwis-active {
+  position: relative;
+  width: 0;
+  height: 0;
+}
+.nwis-active .ring {
+  position: absolute;
+  left: -22px;
+  top: -22px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid #f59e0b;
+  opacity: 0;
+  animation: nwis-ping 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+.nwis-active .ring.r2 {
+  animation-delay: 1s;
+}
+.nwis-active .ring.r3 {
+  animation-delay: 2s;
+}
+.nwis-active .core {
+  position: absolute;
+  left: -8px;
+  top: -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #f59e0b;
+  border: 2px solid #0b0f14;
+  box-shadow: 0 0 0 2px #f59e0b, 0 0 18px 4px rgba(245, 158, 11, 0.6);
+}
+.nwis-active .lbl {
+  position: absolute;
+  left: 0;
+  top: 13px;
+  transform: translateX(-50%);
+  text-align: center;
+  white-space: nowrap;
+  font-family: var(--font-jetbrains), "JetBrains Mono", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #f59e0b;
+  text-shadow: 0 0 4px #0b0f14, 0 0 8px #0b0f14;
+  line-height: 1.1;
+}
+.nwis-active .lbl em {
+  display: block;
+  font-style: normal;
+  font-size: 9px;
+  font-weight: 500;
+  color: #e6edf3;
+  opacity: 0.85;
+}
+.nwis-active.compact .lbl {
+  font-size: 10px;
+}
+@keyframes nwis-ping {
+  0% {
+    transform: scale(0.35);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nwis-active .ring {
+    animation: none;
+    opacity: 0.35;
+  }
+}
+
+/* ring label + distance chips */
+.nwis-ring-label {
+  transform: translate(-50%, -100%);
+  white-space: nowrap;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #f59e0b;
+  opacity: 0.8;
+  text-shadow: 0 0 6px #0b0f14;
+}
+.nwis-ring-label.dist {
+  transform: translate(-50%, -50%);
+  letter-spacing: 0.04em;
+  padding: 1px 6px;
+  border: 1px solid #243041;
+  border-radius: 4px;
+  background: rgba(11, 15, 20, 0.85);
+  opacity: 1;
+}
+.leaflet-tooltip.nwis-dist {
+  background: rgba(11, 15, 20, 0.85);
+  border: 1px solid #243041;
+  border-radius: 4px;
+  padding: 1px 6px;
+  color: #f59e0b;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
+  box-shadow: none;
+}
+.leaflet-tooltip.nwis-dist::before {
+  display: none;
+}
+
+/* tooltip cards */
+.leaflet-tooltip.nwis-tip {
+  background: #18202b;
+  border: 1px solid #2f3d52;
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: #e6edf3;
+  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.8);
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+}
+.leaflet-tooltip.nwis-tip::before {
+  border-top-color: #2f3d52;
+}
+.leaflet-tooltip.nwis-tip .num {
+  font-family: var(--font-jetbrains), monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Numeric inputs: no browser spinners (values were being truncated in narrow review cells) */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

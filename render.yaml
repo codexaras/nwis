@@ -1,0 +1,18 @@
+# Render blueprint for the optional backend deployment (frontend deploys standalone to Vercel).
+# The SQLite database seeds itself deterministically on first boot, so an ephemeral disk is fine.
+services:
+  - type: web
+    name: nwis-backend
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: LLM_PROVIDER
+        sync: false
+      - key: LLM_API_KEY
+        sync: false

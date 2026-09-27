@@ -1,0 +1,42 @@
+# ---- generated artefacts ----------------------------------------------------------------------
+screenshots/
+*.png
+*.jpg
+*.jpeg
+*.gif
+!frontend/public/**/*.png
+!frontend/public/**/*.jpg
+!frontend/public/**/*.jpeg
+!frontend/public/**/*.gif
+
+# ---- Python -------------------------------------------------------------------------------------
+backend/.venv/
+**/__pycache__/
+*.pyc
+*.egg-info/
+backend/*.db
+backend/*.sqlite
+backend/*.db-journal
+backend/uploads/
+
+# ---- Node / Next.js -------------------------------------------------------------------------------
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/next-env.d.ts
+frontend/test-results/
+frontend/playwright-report/
+
+# ---- environment / secrets ------------------------------------------------------------------------
+.env
+.env.local
+.env*.local
+backend/.env
+frontend/.env*.local
+
+# ---- OS / editor ------------------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log

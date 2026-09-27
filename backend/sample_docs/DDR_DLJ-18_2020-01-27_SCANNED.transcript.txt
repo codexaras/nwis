@@ -1,0 +1,37 @@
+# Bundled transcript of the scanned sample DDR (used only when no OCR engine is installed)
+OIL INDIA LIMITED - DRILLING DEPARTMENT
+DAILY DRILLING REPORT (DDR)  -  SCANNED COPY  -  SYNTHETIC DEMONSTRATION DOCUMENT
+
+Well: DLJ-18            Field: Duliajan            Rig: CTR-SV2
+Report No.: 117         Report Date: 2020-01-27   Spud Date: 2019-10-02
+Depth @ 24:00: 2,993 m MD     Hole Size: 12-1/4"     Well Type: deviated
+Latitude: 27.4612    Longitude: 95.0595
+
+1. OPERATIONS SUMMARY
+00:00-03:30  Drilled ahead 12-1/4" hole from 2,929 m; parameters steady.
+03:30-04:15  Connection, survey, circulated bottoms-up.
+04:15-09:45  Torque Spike at 2,951 m - see remarks. NPT 1.0 hrs.
+09:45-13:00  Conditioned hole, reamed interval, circulated hi-vis sweep.
+13:00-24:00  Drilled ahead at controlled parameters.
+
+2. MUD PROPERTIES
+MW 10.4 ppg  FV 58 s  PV 26 cP  YP 24 lb/100ft2  pH 9.5  KCl-Polymer
+
+3. DRILLING EVENTS / REMARKS
+1. TORQUE SPIKE at 2,951 m MD (BARAIL) | Severity: LOW | NPT: 1.0 hrs | MW: 10.4 ppg
+   Torque spike to 15 kft-lb at 2,951 m MD (Barail); string stalled once before parameters were reduced.
+   Mitigation: Reduced WOB/RPM and circulated bottoms-up.
+   Lesson: Expect torque increase in Barail coal seams; pre-empt with lubricant and a stabilised BHA.
+
+2. TIGHT HOLE at 2,975 m MD (BARAIL) | Severity: HIGH | NPT: 9.5 hrs | MW: 10.5 ppg
+   Tight hole at 2,975 m MD in Barail; overpull 70 klbs on trip out, reaming required through 45 m
+   interval. Restricted movement after each connection.
+   Mitigation: Back-reamed interval, pumped hi-vis sweeps and raised mud inhibition (KCl) to reduce clay
+   swelling.
+   Lesson: Ream on connections through Barail; do not wait for drag to increase.
+
+4. LESSONS LEARNED
+- Expect torque increase in Barail coal seams; pre-empt with lubricant and a stabilised BHA.
+- Ream on connections through Barail; do not wait for drag to increase.
+
+Prepared by: Drilling Engineer (synthetic)   Reviewed by: Drilling Superintendent (synthetic)
